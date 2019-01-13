@@ -18,6 +18,7 @@
         </div>
         <v-btn @click="newGame">Neues Spiel</v-btn>
         <v-btn @click="setDefault">Default</v-btn>
+        <v-btn @click="help">Hilfe</v-btn>
         <div class="einstellungen">
             <v-slider
                     v-model="rows"
@@ -50,15 +51,21 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <v-dialog
+                v-model="helpDialog"
+                width="200">
+            <HelpComp></HelpComp>
+        </v-dialog>
     </div>
 </template>
 
 <script>
 
     import TileComp from "./TileComp";
+    import HelpComp from "./HelpComp";
     export default {
         name: "GameComp",
-        components: {TileComp},
+        components: {HelpComp, TileComp},
         props: ['width'],
         data: () => ({
             feld: [],
@@ -68,7 +75,8 @@
             tiles: 12,
             mines: 30,
             dialog: false,
-            dialogText: ''
+            dialogText: '',
+            helpDialog: false,
         }),
         computed: {
             maxMines: function() {
@@ -234,6 +242,9 @@
                 this.rows = 16;
                 this.tiles = 12;
                 this.mines = 30;
+            },
+            help: function() {
+                this.helpDialog = true;
             }
         },
         created: function() {
