@@ -13,6 +13,31 @@
             >
             </TileComp>
         </div>
+        <v-btn @click="newGame">Neues Spiel</v-btn>
+        <v-btn @click="setDefault">Default</v-btn>
+        <div class="einstellungen">
+            <v-slider
+                    v-model="rows"
+                    :min="4"
+                    :max="50"
+                    label="Höhe"
+                    thumb-label
+            ></v-slider>
+            <v-slider
+                    v-model="tiles"
+                    :min="4"
+                    :max="30"
+                    label="Breite"
+                    thumb-label
+            ></v-slider>
+            <v-slider
+                    v-model="mines"
+                    :min="4"
+                    :max="maxMines"
+                    label="Minen"
+                    thumb-label
+            ></v-slider>
+        </div>
     </div>
 </template>
 
@@ -30,6 +55,11 @@
             tiles: 16,
             mines: 40
         }),
+        computed: {
+            maxMines: function() {
+                return this.rows * this.tiles - 1;
+            }
+        },
         methods: {
             reveal: function(row, tile) {
                 const opened = this.feld[row][tile];
@@ -64,6 +94,7 @@
             },
             startGame: function() {
                 this.generateFeld();
+                this.firstReveal = false;
                 this.running = true;
             },
             endGame: function() {
@@ -115,6 +146,14 @@
                         this.feld[rowIndex][tileIndex].neighbours = mines;
                     });
                 });
+            },
+            newGame: function() {
+                this.startGame();
+            },
+            setDefault: function() {
+                this.rows = 16;
+                this.tiles = 16;
+                this.mines = 40;
             }
         },
         created: function() {
@@ -124,5 +163,7 @@
 </script>
 
 <style scoped>
-
+    .einstellungen {
+        margin: 0 50% 0 16px;
+    }
 </style>
