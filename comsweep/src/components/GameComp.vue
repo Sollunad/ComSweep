@@ -78,7 +78,7 @@
             dialog: false,
             dialogText: '',
             helpDialog: false,
-            gifLInk: ''
+            gifLink: ''
         }),
         computed: {
             maxMines: function() {
