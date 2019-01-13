@@ -1,9 +1,8 @@
 <template>
-    <div>
+    <div class="row">
         <div
             v-for="(reihe, rIndex) in feld"
             v-bind:key="rIndex"
-            class="row"
         >
             <TileComp
                     v-for="(tile, tIndex) in reihe"
@@ -28,7 +27,7 @@
             <v-slider
                     v-model="tiles"
                     :min="4"
-                    :max="30"
+                    :max="50"
                     label="Breite"
                     thumb-label
             ></v-slider>
@@ -202,12 +201,20 @@
     }
 
     .row {
-        overflow-x: hidden;
+        overflow-x: -moz-scrollbars-none;
         overflow-y: hidden;
         white-space: nowrap;
 
         .tile {
             display: inline-block;
         }
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    ::-moz-scrollbar {
+        display: none;
     }
 </style>
