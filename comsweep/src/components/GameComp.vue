@@ -49,9 +49,7 @@
                 <v-card-text>
                     {{dialogText}}
                 </v-card-text>
-                <v-card-media>
-                    <v-img :src="gifLink"></v-img>
-                </v-card-media>
+                <v-img :src="gifLink"></v-img>
             </v-card>
         </v-dialog>
         <v-dialog

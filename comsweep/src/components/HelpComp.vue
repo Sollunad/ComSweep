@@ -3,12 +3,13 @@
         <h2>Desktop</h2>
         Doppelklick - Feld aufdecken
         Rechtsklick - Flag setzen
-        Klick auf Zahl - Mass Reveal
+        Klick auf Zahl - 3*3 Reveal
         <p></p>
         <h2>Mobile:</h2>
         Doppelklick - Feld aufdecken
         Lange drücken - Flag setzen
-        Klick auf Zahl - Mass Reveal
+        Klick auf Zahl - 3*3 Reveal
+        <v-img :src="'https://media.giphy.com/media/befaYZCgtZfZm/giphy.gif'"></v-img>
     </div>
 </template>
 
