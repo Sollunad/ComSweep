@@ -9,7 +9,8 @@
                     v-bind:tile="tile"
                     v-bind:width="tileWidth"
                     v-bind:key="`${rIndex} ${tIndex}`"
-                    v-on:click="reveal(rIndex,tIndex)"
+                    v-on:reveal="reveal(rIndex,tIndex)"
+                    v-on:massReveal="massReveal(rIndex,tIndex)"
                     v-on:flag="flag(rIndex,tIndex)"
                     class="tile"
             >
@@ -95,7 +96,6 @@
         },
         methods: {
             reveal: function(row, tile) {
-                console.log(row + " " + tile);
                 const opened = this.feld[row][tile];
                 if (!opened.revealed && !opened.flagged && this.running) {
                     opened.revealed = true;
@@ -136,9 +136,39 @@
                     }
                 }
             },
+            massReveal: function(row, tile) {
+                const opened = this.feld[row][tile];
+                if (opened.revealed && this.running) {
+                    let flaggedNeighbours = 0;
+                    for (let dRow = -1; dRow <= 1; dRow++) {
+                        for (let dTile = -1; dTile <= 1; dTile++) {
+                            const nRow = row + dRow;
+                            const nTile = tile + dTile;
+                            if (nRow >= 0 && nTile >= 0
+                                && nRow < this.feld.length && nTile < this.feld[0].length
+                                && this.feld[nRow][nTile].flagged) {
+                                flaggedNeighbours++;
+                            }
+                        }
+                    }
+                    if (opened.neighbours === flaggedNeighbours && opened.neighbours > 0) {
+                        for (let dRow = -1; dRow <= 1; dRow++) {
+                            for (let dTile = -1; dTile <= 1; dTile++) {
+                                const nRow = row + dRow;
+                                const nTile = tile + dTile;
+                                if (nRow >= 0 && nTile >= 0
+                                    && nRow < this.feld.length && nTile < this.feld[0].length
+                                    && !this.feld[nRow][nTile].revealed) {
+                                    this.reveal(nRow, nTile);
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             flag: function(row, tile) {
                 let opened = this.feld[row][tile];
-                if (!opened.revealed) {
+                if (!opened.revealed && this.running) {
                     opened.flagged = !opened.flagged;
                 }
             },

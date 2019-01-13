@@ -1,6 +1,7 @@
 <template>
     <v-avatar :color="backgroundColor" :size="width" class="tile unselectable" tile
-        @click="click"
+        @dblclick="reveal"
+        @click="massReveal"
         @contextmenu.prevent="flag">
         <template v-if="tile.revealed">
             <v-icon v-if="tile.mine" color="yellow">attach_money</v-icon>
@@ -37,12 +38,15 @@
             }
         },
         methods: {
-            click: function() {
-                this.$emit('click');
+            reveal: function() {
+                this.$emit('reveal');
             },
             flag: function() {
                 this.$emit('flag');
-            }
+            },
+            massReveal: function() {
+                this.$emit('massReveal');
+            },
         }
     }
 </script>
