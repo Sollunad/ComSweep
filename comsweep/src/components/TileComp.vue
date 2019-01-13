@@ -1,6 +1,15 @@
 <template>
-    <v-avatar color="grey" @click="click" class="tile" tile>
-        <v-icon v-if="tile.mine">attach_money</v-icon>
+    <v-avatar :color="backgroundColor" class="tile" tile
+        @click="click"
+        @contextmenu.prevent="flag">
+        <template v-if="tile.revealed">
+            <v-icon v-if="tile.mine" color="yellow">attach_money</v-icon>
+            <span v-else-if="tile.neighbours > 0" class="number"
+                  v-bind:style="{ color: textColor }">{{tile.neighbours}}</span>
+        </template>
+        <template v-else-if="tile.flagged">
+            <v-icon color="red">flag</v-icon>
+        </template>
     </v-avatar>
 </template>
 
@@ -8,9 +17,31 @@
     export default {
         name: "TileComp",
         props: ['tile'],
+        computed: {
+            textColor: function() {
+                switch(this.tile.neighbours) {
+                    case 1: return 'blue';
+                    case 2: return 'green';
+                    case 3: return 'red';
+                    case 4: return 'darkblue';
+                    case 5: return 'brown';
+                    case 6: return 'cyan';
+                    case 7: return 'black';
+                    case 8: return 'dimgray';
+                    default: return '';
+                }
+            },
+            backgroundColor: function() {
+                if (this.tile.revealed && !this.tile.mine) return 'grey';
+                else return 'blue-grey';
+            }
+        },
         methods: {
             click: function() {
                 this.$emit('click');
+            },
+            flag: function() {
+                this.$emit('flag');
             }
         }
     }
@@ -18,6 +49,10 @@
 
 <style scoped>
     .tile {
-        margin: 5px;
+        margin: 1px;
+    }
+
+    .number {
+        font-size: 20px;
     }
 </style>
