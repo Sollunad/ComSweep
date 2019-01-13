@@ -49,6 +49,9 @@
                 <v-card-text>
                     {{dialogText}}
                 </v-card-text>
+                <v-card-media>
+                    <v-img :src="gifLink"></v-img>
+                </v-card-media>
             </v-card>
         </v-dialog>
         <v-dialog
@@ -77,6 +80,7 @@
             dialog: false,
             dialogText: '',
             helpDialog: false,
+            gifLInk: ''
         }),
         computed: {
             maxMines: function() {
@@ -124,10 +128,12 @@
                     }
                     if (this.isWon) {
                         this.dialogText = 'Du hast die Kapitalisten besiegt!';
+                        this.gifLink = 'https://media.giphy.com/media/l378z1NPLzCEAVCVy/giphy.gif';
                         this.dialog = true;
                         this.endGame();
                     }  else if (opened.mine) {
                         this.dialogText = 'Die Kapitalisten haben gewonnen :c';
+                        this.gifLink = 'https://media.giphy.com/media/3oEjHQmvkaHgKaXhWE/giphy.gif';
                         this.dialog = true;
                         this.endGame();
                     } else if (opened.neighbours === 0) {
