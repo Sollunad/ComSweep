@@ -3,6 +3,7 @@
         <div
             v-for="(reihe, rIndex) in feld"
             v-bind:key="rIndex"
+            class="row"
         >
             <TileComp
                     v-for="(tile, tIndex) in reihe"
@@ -10,6 +11,7 @@
                     v-bind:key="`${rIndex} ${tIndex}`"
                     v-on:click="reveal(rIndex,tIndex)"
                     v-on:flag="flag(rIndex,tIndex)"
+                    class="tile"
             >
             </TileComp>
         </div>
@@ -19,7 +21,7 @@
             <v-slider
                     v-model="rows"
                     :min="4"
-                    :max="50"
+                    :max="30"
                     label="Höhe"
                     thumb-label
             ></v-slider>
@@ -32,12 +34,21 @@
             ></v-slider>
             <v-slider
                     v-model="mines"
-                    :min="4"
+                    :min="1"
                     :max="maxMines"
                     label="Minen"
                     thumb-label
             ></v-slider>
         </div>
+        <v-dialog
+            v-model="wonDialog"
+            width="200">
+            <v-card>
+                <v-card-text>
+                    {{dialogText}}
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -53,11 +64,22 @@
             firstReveal: false,
             rows: 16,
             tiles: 16,
-            mines: 40
+            mines: 40,
+            dialog: false,
+            dialogText: ''
         }),
         computed: {
             maxMines: function() {
                 return this.rows * this.tiles - 1;
+            },
+            isWon: function() {
+                let won = true;
+                this.feld.forEach(row => {
+                    row.forEach(tile => {
+                        if (!tile.revealed && !tile.mine) won = false;
+                    });
+                });
+                return won;
             }
         },
         methods: {
@@ -70,7 +92,15 @@
                         this.generateMines();
                         this.countNeighbours();
                     }
-                    if (opened.neighbours === 0) {
+                    if (this.isWon) {
+                        this.dialogText = 'Du hast die Kapitalisten besiegt!';
+                        this.wonDialog = true;
+                        this.endGame();
+                    }  else if (opened.mine) {
+                        this.dialogText = 'Die Kapitalisten haben gewonnen :c';
+                        this.wonDialog = true;
+                        this.endGame();
+                    } else if (opened.neighbours === 0) {
                         for (let dRow = -1; dRow <= 1; dRow++) {
                             for (let dTile = -1; dTile <= 1; dTile++) {
                                 const nRow = row + dRow;
@@ -81,8 +111,6 @@
                                 }
                             }
                         }
-                    } else if (opened.mine) {
-                        this.endGame();
                     }
                 }
             },
@@ -164,6 +192,22 @@
 
 <style scoped>
     .einstellungen {
-        margin: 0 50% 0 16px;
+        margin: 0 20% 0 16px;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+    }
+
+    .row {
+        overflow-x: hidden;
+        overflow-y: hidden;
+        white-space: nowrap;
+
+        .tile {
+            display: inline-block;
+        }
     }
 </style>

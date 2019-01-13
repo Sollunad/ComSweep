@@ -1,5 +1,5 @@
 <template>
-    <v-avatar :color="backgroundColor" class="tile" tile
+    <v-avatar :color="backgroundColor" class="tile unselectable" tile
         @click="click"
         @contextmenu.prevent="flag">
         <template v-if="tile.revealed">
@@ -54,5 +54,14 @@
 
     .number {
         font-size: 20px;
+    }
+
+    .unselectable {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
     }
 </style>
