@@ -64,8 +64,8 @@
             running: false,
             firstReveal: false,
             rows: 16,
-            tiles: 16,
-            mines: 40,
+            tiles: 12,
+            mines: 30,
             dialog: false,
             dialogText: ''
         }),
@@ -202,8 +202,8 @@
             },
             setDefault: function() {
                 this.rows = 16;
-                this.tiles = 16;
-                this.mines = 40;
+                this.tiles = 12;
+                this.mines = 30;
             }
         },
         created: function() {
