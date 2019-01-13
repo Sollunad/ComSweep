@@ -1,5 +1,5 @@
 <template>
-    <v-avatar :color="backgroundColor" class="tile unselectable" tile
+    <v-avatar :color="backgroundColor" :size="width" class="tile unselectable" tile
         @click="click"
         @contextmenu.prevent="flag">
         <template v-if="tile.revealed">
@@ -16,7 +16,7 @@
 <script>
     export default {
         name: "TileComp",
-        props: ['tile'],
+        props: ['tile', 'width'],
         computed: {
             textColor: function() {
                 switch(this.tile.neighbours) {
@@ -50,10 +50,6 @@
 <style scoped>
     .tile {
         margin: 1px;
-    }
-
-    .number {
-        font-size: 20px;
     }
 
     .unselectable {

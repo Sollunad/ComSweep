@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
-    <GameComp></GameComp>
+    <GameComp
+        v-bind:width="windowWidth"></GameComp>
   </v-app>
 </template>
 
@@ -8,14 +9,22 @@
 import GameComp from "./components/GameComp";
 
 export default {
-  name: 'App',
-  components: {
-    GameComp
-  },
-  data () {
-    return {
-      //
-    }
-  }
+    name: 'App',
+    components: {
+      GameComp
+    },
+    data() {
+        return {
+            windowWidth: 0,
+        }
+    },
+    mounted() {
+        this.$nextTick(() => {
+            window.addEventListener('resize', () => {
+                this.windowWidth = window.innerWidth;
+            });
+        })
+        this.windowWidth = window.innerWidth;
+    },
 }
 </script>

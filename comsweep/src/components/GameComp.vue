@@ -7,6 +7,7 @@
             <TileComp
                     v-for="(tile, tIndex) in reihe"
                     v-bind:tile="tile"
+                    v-bind:width="tileWidth"
                     v-bind:key="`${rIndex} ${tIndex}`"
                     v-on:click="reveal(rIndex,tIndex)"
                     v-on:flag="flag(rIndex,tIndex)"
@@ -40,7 +41,7 @@
             ></v-slider>
         </div>
         <v-dialog
-            v-model="wonDialog"
+            v-model="dialog"
             width="200">
             <v-card>
                 <v-card-text>
@@ -57,6 +58,7 @@
     export default {
         name: "GameComp",
         components: {TileComp},
+        props: ['width'],
         data: () => ({
             feld: [],
             running: false,
@@ -79,25 +81,46 @@
                     });
                 });
                 return won;
+            },
+            tileWidth: function() {
+                if (this.width > 1000) {
+                    return 40;
+                } else if (this.width > 600) {
+                    return 30;
+                } else {
+                    return 25;
+                }
+
             }
         },
         methods: {
             reveal: function(row, tile) {
+                console.log(row + " " + tile);
                 const opened = this.feld[row][tile];
                 if (!opened.revealed && !opened.flagged && this.running) {
                     opened.revealed = true;
                     if (!this.firstReveal) {
                         this.firstReveal = true;
+                        for (let dRow = -1; dRow <= 1; dRow++) {
+                            for (let dTile = -1; dTile <= 1; dTile++) {
+                                const nRow = row + dRow;
+                                const nTile = tile + dTile;
+                                if(nRow >= 0 && nTile >= 0
+                                    && nRow < this.feld.length && nTile < this.feld[0].length) {
+                                    this.feld[nRow][nTile].blocked = true;
+                                }
+                            }
+                        }
                         this.generateMines();
                         this.countNeighbours();
                     }
                     if (this.isWon) {
                         this.dialogText = 'Du hast die Kapitalisten besiegt!';
-                        this.wonDialog = true;
+                        this.dialog = true;
                         this.endGame();
                     }  else if (opened.mine) {
                         this.dialogText = 'Die Kapitalisten haben gewonnen :c';
-                        this.wonDialog = true;
+                        this.dialog = true;
                         this.endGame();
                     } else if (opened.neighbours === 0) {
                         for (let dRow = -1; dRow <= 1; dRow++) {
@@ -149,7 +172,7 @@
                 while (mines > 0) {
                     const randomRow = Math.floor(Math.random() * this.rows);
                     const randomTile = Math.floor(Math.random() * this.tiles);
-                    if (!this.feld[randomRow][randomTile].mine && !this.feld[randomRow][randomTile].revealed) {
+                    if (!this.feld[randomRow][randomTile].mine && !this.feld[randomRow][randomTile].revealed && !this.feld[randomRow][randomTile].blocked) {
                         this.feld[randomRow][randomTile].mine = true;
                         mines--;
                     }
@@ -211,10 +234,6 @@
     }
 
     ::-webkit-scrollbar {
-        display: none;
-    }
-
-    ::-moz-scrollbar {
         display: none;
     }
 </style>
