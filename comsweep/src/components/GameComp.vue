@@ -19,15 +19,15 @@
         <div class="einstellungen">
             <v-slider
                     v-model="rows"
-                    :min="4"
-                    :max="30"
+                    :min="2"
+                    :max="40"
                     label="Höhe"
                     thumb-label
             ></v-slider>
             <v-slider
                     v-model="tiles"
-                    :min="4"
-                    :max="50"
+                    :min="2"
+                    :max="40"
                     label="Breite"
                     thumb-label
             ></v-slider>
