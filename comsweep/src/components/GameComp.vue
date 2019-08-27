@@ -44,7 +44,7 @@
         </div>
         <v-dialog
             v-model="dialog"
-            width="200">
+            width="300">
             <v-card>
                 <v-card-text>
                     {{dialogText}}
@@ -54,7 +54,7 @@
         </v-dialog>
         <v-dialog
                 v-model="helpDialog"
-                width="200">
+                width="300">
             <HelpComp></HelpComp>
         </v-dialog>
     </div>

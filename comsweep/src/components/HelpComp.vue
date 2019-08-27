@@ -1,13 +1,17 @@
 <template>
     <div class="help">
         <h2>Desktop</h2>
-        Doppelklick - Feld aufdecken
-        Rechtsklick - Flag setzen
-        Klick auf Zahl - 3*3 Reveal
+        (Q) Doppelklick - Feld aufdecken
+        <p></p>
+        (W) Rechtsklick - Flag setzen
+        <p></p>
+        (E) Klick auf Zahl - 3*3 Reveal
         <p></p>
         <h2>Mobile:</h2>
         Doppelklick - Feld aufdecken
+        <p></p>
         Lange drücken - Flag setzen
+        <p></p>
         Klick auf Zahl - 3*3 Reveal
         <v-img :src="'https://media.giphy.com/media/befaYZCgtZfZm/giphy.gif'"></v-img>
     </div>

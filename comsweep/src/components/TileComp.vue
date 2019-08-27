@@ -1,8 +1,11 @@
 <template>
     <v-avatar :color="backgroundColor" :size="width" class="tile unselectable" tile
         @dblclick="reveal"
+        v-on:keypress.81="reveal"
         @click="massReveal"
-        @contextmenu.prevent="flag">
+        v-on:keypress.69="massReveal"
+        @contextmenu.prevent="flag"
+        v-on:keypress.87="flag">
         <template v-if="tile.revealed">
             <v-icon v-if="tile.mine" color="yellow">attach_money</v-icon>
             <span v-else-if="tile.neighbours > 0" class="number"
